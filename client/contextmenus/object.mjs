@@ -276,6 +276,7 @@ function atm(ent) {
     ]);
 }
 
+let clearSitInterval = -1;
 function chair(ent) {
     let pos = native.getEntityCoords(ent, false);
     let heading = native.getEntityHeading(ent) + 180.0;
@@ -303,14 +304,18 @@ function chair(ent) {
 
     native.setFollowPedCamViewMode(2);
     alt.Player.local.sitting = true;
-    alt.on('keyup', clearSit);
+    if (clearSitInterval == -1)
+        clearSitInterval = alt.setInterval(clearSit, 1);
 }
 
-function clearSit(key) {
-    if (key === 'W'.charCodeAt(0)) {
-        alt.off('keyup', clearSit);
+function clearSit() {
+    if (native.isControlPressed(0, 32)) {
         native.clearPedTasksImmediately(alt.Player.local.scriptID);
         native.clearPedSecondaryTask(alt.Player.local.scriptID);
         alt.Player.local.sitting = false;
+        if (clearSitInterval != -1) {
+            alt.clearInterval(clearSitInterval);
+            clearSitInterval = -1;
+        }
     }
 }
