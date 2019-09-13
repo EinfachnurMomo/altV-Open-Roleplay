@@ -38,6 +38,7 @@ keybinds[118] = panelsChat.toggleHide;
 alt.on('keyup', key => {
     if (!alt.Player.local.getMeta('loggedin')) return;
     if (alt.Player.local.getMeta('chat')) return;
+    if (!alt.gameControlsEnabled()) return;
 
     if (cooldown) return;
 

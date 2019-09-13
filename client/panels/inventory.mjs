@@ -12,6 +12,7 @@ let webview;
 // Show the Dialogue for the Inventory
 export function showDialogue() {
     if (webview) return;
+    if (!alt.gameControlsEnabled()) return;
     webview = new View(url, true);
     webview.on('inventory:Drop', drop);
     webview.on('inventory:Use', use);
